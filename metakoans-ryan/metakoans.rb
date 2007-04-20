@@ -317,5 +317,5 @@ end
 
 
 # knowledge = ARGV.shift or abort "#{ $0 } knowledge.rb"
-student = MetaStudent.new 'knowledge_for_koan_1'
+student = MetaStudent.new 'knowledge_for_koan_1_assert_4'
 MetaGuru.enlighten student
