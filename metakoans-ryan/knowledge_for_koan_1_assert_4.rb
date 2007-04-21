@@ -1,6 +1,6 @@
 class Class
   def attribute(name)
-    attr_var = "@#{name}_attr"
+    attr_var = "@#{name}"
 
     define_method(name + "?") do
       !instance_variable_get(attr_var).nil?
