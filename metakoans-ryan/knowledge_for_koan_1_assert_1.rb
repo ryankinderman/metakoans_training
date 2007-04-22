@@ -1,7 +1,7 @@
-class Class
-  def attribute(name)
-    define_method(name + "?") do
-      false
-    end
-  end
+module MetaKoans
+  
+class SomeClass
+  def self.attribute; end  
+end
+
 end

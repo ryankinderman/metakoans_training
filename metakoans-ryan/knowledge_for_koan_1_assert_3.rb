@@ -1,13 +1,15 @@
-class Class
-  def attribute(name)
-    define_method(name + "?") do
-      false
-    end
-    define_method(name + "=") do |value|
-      instance_variable_set "@#{name}_attr", value
-    end
-    define_method(name) do
-      instance_variable_get("@#{name}_attr")
-    end
+module MetaKoans
+  
+class SomeClass
+  def self.attribute; end  
+
+  def a?
+    false
   end
+  
+  def a=(value)
+    @a = value
+  end
+end
+
 end
