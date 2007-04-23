@@ -4,7 +4,7 @@ class SomeClass
   def self.attribute; end  
 
   def a?
-    return @a
+    !@a.nil?
   end
   
   def a

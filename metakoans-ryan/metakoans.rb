@@ -100,7 +100,7 @@ end
 
 
 # knowledge = ARGV.shift or abort "#{ $0 } knowledge.rb"
-student = MetaStudent.new 'knowledge_for_koan_02_assert_0'
+student = MetaStudent.new 'knowledge_for_koan_03_1'
 
 
 module MetaKoans
@@ -130,6 +130,21 @@ module MetaKoans
     assert{ o.b == 42 }
     assert{ o.b? }    
   end
+
+  def koan_03
+    SomeClass.instance_eval do
+      class << self
+        attribute 'b'
+      end
+    end
+    
+    assert{ not SomeClass.b? }
+    assert{ SomeClass.b = 42 }
+    assert{ SomeClass.b == 42 }
+    assert{ SomeClass.b? }    
+  end
+  
+  
 
 #
 # 'attribute' must provide getter, setter, and query to instances
