@@ -100,7 +100,7 @@ end
 
 
 # knowledge = ARGV.shift or abort "#{ $0 } knowledge.rb"
-student = MetaStudent.new 'knowledge_for_koan_1_assert_3'
+student = MetaStudent.new 'knowledge_for_koan_02_assert_0'
 
 
 module MetaKoans
@@ -116,6 +116,19 @@ module MetaKoans
     assert{ o.a = 42 }
     assert{ o.a == 42 }
     assert{ o.a? }    
+  end
+  
+  def koan_02
+    SomeClass.instance_eval do
+      attribute 'b'
+    end
+    
+    o = SomeClass.new
+    
+    assert{ not o.b? }
+    assert{ o.b = 42 }
+    assert{ o.b == 42 }
+    assert{ o.b? }    
   end
 
 #
