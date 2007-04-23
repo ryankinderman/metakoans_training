@@ -1,24 +1,35 @@
 module MetaKoans
+  
+class SomeClass
 
-module Attributable
-  def attribute(name='a')
-    define_method name + "?" do
-      !@val.nil?
-    end
-    define_method name + "=" do |value|
-      @val = value
-    end
-    define_method name do
-      @val
+  class << self
+    def self.attribute(name='a')
+      var_name = "@#{name}"
+      define_method name + "?" do
+        !instance_variable_get(var_name).nil?
+      end
+      define_method name + "=" do |value|
+        instance_variable_set var_name, value
+      end
+      define_method name do
+        instance_variable_get(var_name)
+      end
     end
   end
+  
+  def self.attribute(name='a')
+    var_name = "@#{name}"
+    define_method name + "?" do
+      !instance_variable_get(var_name).nil?
+    end
+    define_method name + "=" do |value|
+      instance_variable_set var_name, value
+    end
+    define_method name do
+      instance_variable_get(var_name)
+    end
+  end
+  
 end
 
-class SomeClass
-end
-
-end
-
-class Class
-  include MetaKoans::Attributable
 end

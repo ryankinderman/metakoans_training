@@ -1,30 +1,17 @@
 module MetaKoans
   
 class SomeClass
-
-  class << self
-    def self.attribute(name='a')
-      define_method name + "?" do
-        !@val.nil?
-      end
-      define_method name + "=" do |value|
-        @val = value
-      end
-      define_method name do
-        @val
-      end
-    end
-  end
   
   def self.attribute(name='a')
+    var_name = "@#{name}"
     define_method name + "?" do
-      !@val.nil?
+      !instance_variable_get(var_name).nil?
     end
     define_method name + "=" do |value|
-      @val = value
+      instance_variable_set var_name, value
     end
     define_method name do
-      @val
+      instance_variable_get(var_name)
     end
   end
   

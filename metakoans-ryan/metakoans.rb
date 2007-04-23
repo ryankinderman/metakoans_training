@@ -100,7 +100,7 @@ end
 
 
 # knowledge = ARGV.shift or abort "#{ $0 } knowledge.rb"
-student = MetaStudent.new 'knowledge_for_koan_04_0'
+student = MetaStudent.new 'knowledge_for_koan_04_1'
 
 
 module MetaKoans
@@ -116,7 +116,7 @@ module MetaKoans
     assert{ not o.a? }
     assert{ o.a = 42 }
     assert{ o.a == 42 }
-    assert{ o.a? }    
+    assert{ o.a? }
   end
 
   def koan_02
@@ -138,33 +138,43 @@ module MetaKoans
     assert{ not o.c? }
     assert{ o.c = 40 }
     assert{ o.c == 40 }
-    assert{ o.c? } 
+    assert{ o.c? }    
   end
   
   def koan_03
-    SomeClass.instance_eval do
-      class << self
-        attribute 'd'
-      end
-    end
+    SomeClass.attribute 'd'
+    SomeClass.attribute 'e'
     
-    assert{ not SomeClass.d? }
-    assert{ SomeClass.d = 39 }
-    assert{ SomeClass.d == 39 }
-    assert{ SomeClass.d? }        
+    o = SomeClass.new
+    
+    assert{ not o.d? }
+    assert{ o.d = 39 }
+    assert{ o.d == 39 }
+    assert{ o.d? }
+    
+    assert{ not o.e? }
+    assert{ o.e = 38 }
+    assert{ o.e == 38 }
+    assert{ o.e? }
   end
   
   def koan_04
-    c = Class.new do
-      attribute 'a'
+    SomeClass.instance_eval do
+      class << self
+        attribute 'f'
+        attribute 'g'
+      end
     end
     
-    o = c.new
-    
-    assert{ not o.a? }
-    assert{ o.a = 42 }
-    assert{ o.a == 42 }
-    assert{ o.a? }        
+    assert{ not SomeClass.f? }
+    assert{ SomeClass.f = 37 }
+    assert{ SomeClass.f == 37 }
+    assert{ SomeClass.f? }        
+
+    assert{ not SomeClass.g? }
+    assert{ SomeClass.g = 36 }
+    assert{ SomeClass.g == 36 }
+    assert{ SomeClass.g? }        
   end
 
 #
