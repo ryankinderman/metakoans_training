@@ -100,15 +100,16 @@ end
 
 
 # knowledge = ARGV.shift or abort "#{ $0 } knowledge.rb"
-student = MetaStudent.new 'knowledge_for_koan_03_1'
+student = MetaStudent.new 'knowledge_for_koan_04_0'
 
 
 module MetaKoans
 
+  #
+  # 'attribute' must provide getter, setter, and query to instances
+  #
   def koan_01
-    SomeClass.instance_eval do
-      attribute
-    end
+    SomeClass.attribute
     
     o = SomeClass.new
 
@@ -117,34 +118,54 @@ module MetaKoans
     assert{ o.a == 42 }
     assert{ o.a? }    
   end
-  
+
   def koan_02
-    SomeClass.instance_eval do
-      attribute 'b'
-    end
+    SomeClass.attribute 'b'
     
     o = SomeClass.new
     
     assert{ not o.b? }
-    assert{ o.b = 42 }
-    assert{ o.b == 42 }
+    assert{ o.b = 41 }
+    assert{ o.b == 41 }
     assert{ o.b? }    
-  end
 
+    SomeClass.instance_eval do
+      attribute 'c'
+    end
+    
+    o = SomeClass.new
+    
+    assert{ not o.c? }
+    assert{ o.c = 40 }
+    assert{ o.c == 40 }
+    assert{ o.c? } 
+  end
+  
   def koan_03
     SomeClass.instance_eval do
       class << self
-        attribute 'b'
+        attribute 'd'
       end
     end
     
-    assert{ not SomeClass.b? }
-    assert{ SomeClass.b = 42 }
-    assert{ SomeClass.b == 42 }
-    assert{ SomeClass.b? }    
+    assert{ not SomeClass.d? }
+    assert{ SomeClass.d = 39 }
+    assert{ SomeClass.d == 39 }
+    assert{ SomeClass.d? }        
   end
   
-  
+  def koan_04
+    c = Class.new do
+      attribute 'a'
+    end
+    
+    o = c.new
+    
+    assert{ not o.a? }
+    assert{ o.a = 42 }
+    assert{ o.a == 42 }
+    assert{ o.a? }        
+  end
 
 #
 # 'attribute' must provide getter, setter, and query to instances

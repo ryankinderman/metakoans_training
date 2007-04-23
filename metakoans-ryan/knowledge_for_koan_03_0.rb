@@ -1,21 +1,33 @@
 module MetaKoans
   
 class SomeClass
+
   class << self
     def self.attribute(name='a')
-      attr_accessor name
       define_method name + "?" do
-        !send(name).nil?
+        !@val.nil?
       end
-    end      
+      define_method name + "=" do |value|
+        @val = value
+      end
+      define_method name do
+        @val
+      end
+    end
   end
   
   def self.attribute(name='a')
-    attr_accessor name
     define_method name + "?" do
-      !send(name).nil?
+      !@val.nil?
     end
-  end  
+    define_method name + "=" do |value|
+      @val = value
+    end
+    define_method name do
+      @val
+    end
+  end
+  
 end
 
 end

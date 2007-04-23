@@ -1,18 +1,19 @@
 module MetaKoans
   
 class SomeClass
-  def self.attribute; end  
-
+  def self.attribute
+  end
+  
   def a?
-    false
+    !@val.nil?
   end
   
   def a=(value)
-    @a = value
+    @val = value
   end
   
   def a
-    @a
+    @val
   end
 end
 

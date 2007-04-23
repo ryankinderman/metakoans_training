@@ -2,18 +2,23 @@ module MetaKoans
 
 module Attributable
   def attribute(name='a')
-    attr_accessor name
     define_method name + "?" do
-      !send(name).nil?
+      !@val.nil?
     end
-  end        
+    define_method name + "=" do |value|
+      @val = value
+    end
+    define_method name do
+      @val
+    end
+  end
 end
 
 class SomeClass
+  extend Attributable
   class << self
     extend Attributable
-  end
-  extend Attributable
+  end  
 end
 
 end
