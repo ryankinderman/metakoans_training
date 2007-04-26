@@ -10,6 +10,13 @@ module Attributable
     else
       name = params
     end
+    
+    define_methods(name, default_value)
+  end
+  
+  private
+  
+  def define_methods(name, default_value)
     var_name = "@#{name}"
     define_method name do
       instance_variable_get(var_name) || default_value
@@ -19,6 +26,7 @@ module Attributable
     end
     define_method name + "=" do |value|
       instance_variable_set var_name, value
+      default_value = nil
     end
   end
 end

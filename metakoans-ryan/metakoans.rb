@@ -100,7 +100,7 @@ end
 
 
 # knowledge = ARGV.shift or abort "#{ $0 } knowledge.rb"
-student = MetaStudent.new 'knowledge_for_koan_05_2'
+student = MetaStudent.new 'knowledge_for_koan_06_1'
 
 
 module MetaKoans
@@ -219,6 +219,27 @@ module MetaKoans
     assert{ (o.i = nil).nil? }
     assert{ o.i == nil }
     assert{ not o.i? }
+  end
+  
+  #
+  # 'attribute' must provide a method for providing a default value as block
+  # which is evaluated at instance level 
+  #
+  def koan_06
+    SomeClass.instance_eval do
+      attribute('j'){ fortythree }
+      def fortythree
+        32
+      end
+    end
+
+    o = SomeClass.new
+
+    assert{ o.j == 32 }
+    assert{ o.j? }
+    assert{ (o.j = nil).nil? }
+    assert{ o.j == nil }
+    assert{ not o.j? }
   end
   
 

@@ -1,7 +1,7 @@
 module MetaKoans
 
 module Attributable
-  def attribute(params='a') #name='a')
+  def attribute(params='a')
     name = nil
     default_value = nil
     if params.is_a?(Hash)
