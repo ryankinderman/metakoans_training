@@ -100,13 +100,13 @@ end
 
 
 # knowledge = ARGV.shift or abort "#{ $0 } knowledge.rb"
-student = MetaStudent.new 'knowledge_for_koan_04_1'
+student = MetaStudent.new 'knowledge_for_koan_05_2'
 
 
 module MetaKoans
 
   #
-  # 'attribute' must provide getter, setter, and query to instances
+  # 'attribute' must provide getter, setter, and query for 'a' to instances of SomeClass
   #
   def koan_01
     SomeClass.attribute
@@ -119,6 +119,10 @@ module MetaKoans
     assert{ o.a? }
   end
 
+  #
+  # the name of the getter, setter, and query methods created by 'attribute' must match
+  # the value of the given parameter
+  #
   def koan_02
     SomeClass.attribute 'b'
     
@@ -127,37 +131,53 @@ module MetaKoans
     assert{ not o.b? }
     assert{ o.b = 41 }
     assert{ o.b == 41 }
-    assert{ o.b? }    
-
-    SomeClass.instance_eval do
-      attribute 'c'
-    end
+    assert{ o.b? }
+  end
+  
+  #
+  # multiple calls to 'attribute' with different parameter values must generate multiple
+  # methods whose names correspond to the parameter value, and whose values must must be
+  # independent of each other
+  #
+  # this koan also illustrates how calling 'attribute' through SomeClass.instance_eval 
+  # has the same effect as calling 'attribute' directly on SomeClass.
+  #
+  # additionally, by virtue of the fact that 'attribute' is available and working on
+  # SomeClass, creating an attribute on an object-specific class should automatically
+  # work
+  #
+  def koan_03
+    SomeClass.attribute 'c'
     
     o = SomeClass.new
     
     assert{ not o.c? }
-    assert{ o.c = 40 }
-    assert{ o.c == 40 }
-    assert{ o.c? }    
-  end
+    assert{ o.c = 39 }
+    assert{ o.c == 39 }
+    assert{ o.c? }
   
-  def koan_03
-    SomeClass.attribute 'd'
-    SomeClass.attribute 'e'
-    
-    o = SomeClass.new
+    SomeClass.instance_eval { attribute 'd' }
     
     assert{ not o.d? }
-    assert{ o.d = 39 }
-    assert{ o.d == 39 }
+    assert{ o.d = 38 }
+    assert{ o.d == 38 }
     assert{ o.d? }
     
+    class << o
+      attribute 'e'
+    end
+    
     assert{ not o.e? }
-    assert{ o.e = 38 }
-    assert{ o.e == 38 }
-    assert{ o.e? }
+    assert{ o.e = 37 }
+    assert{ o.e == 37 }
+    assert{ o.e? }                
   end
   
+  #
+  # 'attribute' must be callable from the singleton class of SomeClass, and must
+  # generate corresponding getter, setter, and query methods on the class itself
+  # in addition to instances of it.
+  #
   def koan_04
     SomeClass.instance_eval do
       class << self
@@ -167,15 +187,33 @@ module MetaKoans
     end
     
     assert{ not SomeClass.f? }
-    assert{ SomeClass.f = 37 }
-    assert{ SomeClass.f == 37 }
+    assert{ SomeClass.f = 36 }
+    assert{ SomeClass.f == 36 }
     assert{ SomeClass.f? }        
-
+  
     assert{ not SomeClass.g? }
-    assert{ SomeClass.g = 36 }
-    assert{ SomeClass.g == 36 }
+    assert{ SomeClass.g = 35 }
+    assert{ SomeClass.g == 35 }
     assert{ SomeClass.g? }        
   end
+  
+  #
+  # 'attribute' must provide a method for providing a default value as hash
+  #
+  def koan_05
+    SomeClass.instance_eval do
+      attribute 'h' => 34
+    end
+    
+    o = SomeClass.new
+
+    assert{ o.h == 34 }
+    assert{ o.h? }
+    assert{ (o.h = nil).nil? }
+    assert{ o.h == nil }
+    assert{ not o.h? }
+  end
+  
 
 #
 # 'attribute' must provide getter, setter, and query to instances
