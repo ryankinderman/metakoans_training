@@ -203,6 +203,7 @@ module MetaKoans
   def koan_05
     SomeClass.instance_eval do
       attribute 'h' => 34
+      attribute 'i' => 33
     end
     
     o = SomeClass.new
@@ -212,6 +213,12 @@ module MetaKoans
     assert{ (o.h = nil).nil? }
     assert{ o.h == nil }
     assert{ not o.h? }
+
+    assert{ o.i == 33 }
+    assert{ o.i? }
+    assert{ (o.i = nil).nil? }
+    assert{ o.i == nil }
+    assert{ not o.i? }
   end
   
 
