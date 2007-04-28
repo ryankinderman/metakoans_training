@@ -25,7 +25,7 @@ module Attributable
   def define_methods(name, default_value, &block)
     attribute_value = nil
     define_method name do
-      default_value = block.call unless block.nil?
+      default_value = instance_eval &block unless block.nil?
       attribute_value || default_value
     end
     define_method name + "?" do

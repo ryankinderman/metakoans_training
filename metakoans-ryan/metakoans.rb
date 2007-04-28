@@ -139,7 +139,7 @@ module MetaKoans
   # methods whose names correspond to the parameter value, and whose values must must be
   # independent of each other
   #
-  # this koan also illustrates how calling 'attribute' through SomeClass.instance_eval 
+  # this koan also illustrates how calling 'attribute' through SomeClass.class_eval 
   # has the same effect as calling 'attribute' directly on SomeClass.
   #
   # additionally, by virtue of the fact that 'attribute' is available and working on
@@ -156,7 +156,7 @@ module MetaKoans
     assert{ o.c == 39 }
     assert{ o.c? }
   
-    SomeClass.instance_eval { attribute 'd' }
+    SomeClass.class_eval { attribute 'd' }
     
     assert{ not o.d? }
     assert{ o.d = 38 }
@@ -179,7 +179,7 @@ module MetaKoans
   # in addition to instances of it.
   #
   def koan_04
-    SomeClass.instance_eval do
+    SomeClass.class_eval do
       class << self
         attribute 'f'
         attribute 'g'
@@ -201,7 +201,7 @@ module MetaKoans
   # 'attribute' must provide a method for providing a default value as hash
   #
   def koan_05
-    SomeClass.instance_eval do
+    SomeClass.class_eval do
       attribute 'h' => 34
       attribute 'i' => 33
     end
@@ -223,17 +223,18 @@ module MetaKoans
   
   #
   # 'attribute' must provide a method for providing a default value as block
-  # which is evaluated at instance level 
+  # which is evaluated at instance level
+  #
+  # instance_eval is called to define an attribute in order to illustrate the 
+  # difference between it and class_eval. this code should not affect your 
+  # mastery of this koan
   #
   def koan_06
-    SomeClass.instance_eval do
+    SomeClass.class_eval do
       attribute('j'){ thirtytwo }
-      attribute('k'){ thirtyone }
+      attribute('k'){ j - 1 }
       def thirtytwo
         32
-      end
-      def thirtyone
-        31
       end
     end
 
@@ -243,14 +244,53 @@ module MetaKoans
     assert{ o.j? }
     assert{ (o.j = nil).nil? }
     assert{ o.j == nil }
-    assert{ not o.j? }
-    
+    assert{ not o.j? } 
+
+    o.j = 32
     assert{ o.k == 31 }
     assert{ o.k? }
     assert{ (o.k = nil).nil? }
     assert{ o.k == nil }
     assert{ not o.k? }
-  end  
+    
+    SomeClass.instance_eval do
+      class << self
+        attribute('l'){ thirtyone }
+      end
+      def thirtyone
+        31
+      end
+    end
+    
+    assert{ SomeClass.thirtyone == 31 }  
+    assert{ SomeClass.l == 31 }
+    assert{ SomeClass.l? }
+    assert{ (SomeClass.l = nil).nil? }
+    assert{ SomeClass.l == nil }
+    assert{ not SomeClass.l? }
+  end
+  
+  #
+  # 'attribute' must provide inheritance of default values at both class and
+  # instance levels
+  #
+  def koan_07
+    c = Class.new SomeClass
+  
+    c.l = nil
+    assert{ not c.l? }
+    assert{ c.l = 30 }
+    assert{ c.l == 30 }
+    assert{ c.l? }
+  
+    o = c.new
+  
+    o.j = nil
+    assert{ not o.j? }
+    assert{ o.j = 29 }
+    assert{ o.j == 29 }
+    assert{ o.j? }
+  end
 
 #
 # 'attribute' must provide getter, setter, and query to instances
