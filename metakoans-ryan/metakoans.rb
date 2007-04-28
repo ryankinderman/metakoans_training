@@ -100,7 +100,7 @@ end
 
 
 # knowledge = ARGV.shift or abort "#{ $0 } knowledge.rb"
-student = MetaStudent.new 'knowledge_for_koan_06_1'
+student = MetaStudent.new 'knowledge_for_koan_06_2'
 
 
 module MetaKoans
@@ -227,9 +227,13 @@ module MetaKoans
   #
   def koan_06
     SomeClass.instance_eval do
-      attribute('j'){ fortythree }
-      def fortythree
+      attribute('j'){ thirtytwo }
+      attribute('k'){ thirtyone }
+      def thirtytwo
         32
+      end
+      def thirtyone
+        31
       end
     end
 
@@ -240,8 +244,13 @@ module MetaKoans
     assert{ (o.j = nil).nil? }
     assert{ o.j == nil }
     assert{ not o.j? }
-  end
-  
+    
+    assert{ o.k == 31 }
+    assert{ o.k? }
+    assert{ (o.k = nil).nil? }
+    assert{ o.k == nil }
+    assert{ not o.k? }
+  end  
 
 #
 # 'attribute' must provide getter, setter, and query to instances
