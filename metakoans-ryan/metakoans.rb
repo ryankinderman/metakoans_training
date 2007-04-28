@@ -100,7 +100,7 @@ end
 
 
 # knowledge = ARGV.shift or abort "#{ $0 } knowledge.rb"
-student = MetaStudent.new 'knowledge_for_koan_06_2'
+student = MetaStudent.new 'knowledge_for_koan_09_0'
 
 
 module MetaKoans
@@ -271,25 +271,97 @@ module MetaKoans
   end
   
   #
-  # 'attribute' must provide inheritance of default values at both class and
-  # instance levels
+  # 'attribute' must be available to any class
   #
   def koan_07
-    c = Class.new SomeClass
+    c = Class.new do
+      class << self
+        attribute 'm'
+      end
+      attribute 'n'
+    end
   
-    c.l = nil
-    assert{ not c.l? }
-    assert{ c.l = 30 }
-    assert{ c.l == 30 }
-    assert{ c.l? }
+    assert{ not c.m? }
+    assert{ c.m = 30 }
+    assert{ c.m == 30 }
+    assert{ c.m? }
   
     o = c.new
   
-    o.j = nil
-    assert{ not o.j? }
-    assert{ o.j = 29 }
-    assert{ o.j == 29 }
-    assert{ o.j? }
+    assert{ not o.n? }
+    assert{ o.n = 29 }
+    assert{ o.n == 29 }
+    assert{ o.n? }
+  end
+
+  #
+  # 'attribute' must be available to any module
+  #
+  def koan_08
+    m = Module.new do
+      attribute 'o'
+    end
+    
+    c = Class.new do
+      include m
+      extend m
+    end
+  
+    assert{ not c.o? }
+    assert{ c.o = 28 }
+    assert{ c.o == 28 }
+    assert{ c.o? }
+  
+    o = c.new
+  
+    assert{ not o.o? }
+    assert{ o.o = 27 }
+    assert{ o.o == 27 }
+    assert{ o.o? }
+  end
+
+  #
+  # into the void 
+  #
+  def koan_09
+    b = Class.new {
+      class << self
+        attribute 'a' => 48
+        attribute('b'){ a + 1 }
+      end
+      include Module.new {
+        attribute 'a' => 50
+        attribute('b'){ a + 1 }
+      }
+    }
+
+    c = Class.new b
+
+    assert{ c.a == 48 }
+    assert{ c.a? }
+    assert{ c.a = 'forty-two' }
+    assert{ c.a == 'forty-two' }
+    assert{ b.a == 48 }
+    c.a = 48
+
+    assert{ c.b == 49 }
+    assert{ c.b? }
+    assert{ c.b = 'forty-two' }
+    assert{ c.b == 'forty-two' }
+    assert{ b.b == 49 }
+
+    o = c.new
+
+    assert{ o.a == 50 }
+    assert{ o.a? }
+    assert{ o.a = nil; o.a == nil }
+    assert{ not o.a? }
+    o.a = 50
+
+    assert{ o.b == 51 }
+    assert{ o.b? }
+    assert{ o.b = nil; o.b == nil }
+    assert{ not o.b? }
   end
 
 #
