@@ -100,7 +100,7 @@ end
 
 
 # knowledge = ARGV.shift or abort "#{ $0 } knowledge.rb"
-student = MetaStudent.new 'knowledge_for_koan_09_0'
+student = MetaStudent.new 'knowledge_for_koan_09_1'
 
 
 module MetaKoans
