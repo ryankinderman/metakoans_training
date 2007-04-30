@@ -1,5 +1,3 @@
-module MetaKoans
-  
 class SomeClass
   
   def self.attribute(name='a')
@@ -14,6 +12,4 @@ class SomeClass
     end
   end
   
-end
-
 end

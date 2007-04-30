@@ -1,5 +1,3 @@
-module MetaKoans
-
 module Attributable
   def attribute(params='a', &block)
     name, default_value = process_args(params)
@@ -42,8 +40,6 @@ end
 class SomeClass
 end
 
-end
-
 class Module
-  include MetaKoans::Attributable
+  include Attributable
 end

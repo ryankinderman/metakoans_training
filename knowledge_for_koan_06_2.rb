@@ -1,5 +1,3 @@
-module MetaKoans
-
 module Attributable
   def attribute(params='a', &block)
     name, default_value = process_args(params)
@@ -44,6 +42,4 @@ class SomeClass
   class << self
     extend Attributable
   end  
-end
-
 end

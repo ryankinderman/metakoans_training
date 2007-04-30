@@ -1,5 +1,3 @@
-module MetaKoans
-  
 class SomeClass
 
   class << self
@@ -30,6 +28,4 @@ class SomeClass
     end
   end
   
-end
-
 end

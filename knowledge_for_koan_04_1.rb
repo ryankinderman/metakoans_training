@@ -1,5 +1,3 @@
-module MetaKoans
-
 module Attributable
   def attribute(name='a')
     var_name = "@#{name}"
@@ -20,6 +18,4 @@ class SomeClass
   class << self
     extend Attributable
   end  
-end
-
 end

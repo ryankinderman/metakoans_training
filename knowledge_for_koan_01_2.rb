@@ -1,5 +1,3 @@
-module MetaKoans
-  
 class SomeClass
   def self.attribute
   end
@@ -11,6 +9,4 @@ class SomeClass
   def a=(value)
     @val = value
   end
-end
-
 end

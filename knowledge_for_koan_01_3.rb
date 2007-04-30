@@ -1,5 +1,3 @@
-module MetaKoans
-  
 class SomeClass
   def self.attribute
   end
@@ -15,6 +13,4 @@ class SomeClass
   def a
     @val
   end
-end
-
 end
