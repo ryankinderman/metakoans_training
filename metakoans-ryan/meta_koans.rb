@@ -36,79 +36,18 @@
 #   koan_9 has expanded your awareness
 #   mountains are again merely mountains
 #   
-class MetaStudent
-  def initialize knowledge
-    require knowledge
-  end
-  def ponder koan
-    begin
-      send koan
-      true
-    rescue => e
-      STDERR.puts %Q[#{ e.message } (#{ e.class })\n#{ e.backtrace.join 10.chr }]
-      false
-    end
-  end
-end
-
-
-class MetaGuru
-  require "singleton"
-  include Singleton
-
-  def enlighten student
-    student.extend MetaKoans
-
-    koans = student.methods.grep(%r/koan/).sort
-
-    attainment = nil
-
-    koans.each do |koan| 
-      awakened = student.ponder koan
-      if awakened
-        puts "#{ koan } has expanded your awareness"
-        attainment = koan
-      else
-        puts "#{ koan } still requires meditation"
-        break
-      end
-    end
-
-    puts(
-      case attainment
-        when nil 
-          "mountains are merely mountains"
-        when 'koan_1', 'koan_2', 'koan_01', 'koan_02'
-          "learn the rules so you know how to break them properly"
-        when 'koan_3', 'koan_4', 'koan_03', 'koan_04'
-          "remember that silence is sometimes the best answer"
-        when 'koan_5', 'koan_6', 'koan_05', 'koan_06'
-          "sleep is the best meditation"
-        when 'koan_7', 'koan_07'
-          "when you lose, don't lose the lesson"
-        when 'koan_8', 'koan_08'
-          "things are not what they appear to be: nor are they otherwise"
-        else
-          "mountains are again merely mountains"
-      end
-    )
-  end
-  def self::method_missing m, *a, &b
-    instance.send m, *a, &b
-  end
-end
-
+require File.dirname(__FILE__) + '/meta_guru'
+require File.dirname(__FILE__) + '/meta_student'
 
 # knowledge = ARGV.shift or abort "#{ $0 } knowledge.rb"
 student = MetaStudent.new 'knowledge_for_koan_09_1'
-
 
 module MetaKoans
 
   #
   # 'attribute' must provide getter, setter, and query for 'a' to instances of SomeClass
   #
-  def koan_01
+  def koan_1
     SomeClass.attribute
     
     o = SomeClass.new
@@ -123,7 +62,7 @@ module MetaKoans
   # the name of the getter, setter, and query methods created by 'attribute' must match
   # the value of the given parameter
   #
-  def koan_02
+  def koan_2
     SomeClass.attribute 'b'
     
     o = SomeClass.new
@@ -146,7 +85,7 @@ module MetaKoans
   # SomeClass, creating an attribute on an object-specific class should automatically
   # work
   #
-  def koan_03
+  def koan_3
     SomeClass.attribute 'c'
     
     o = SomeClass.new
@@ -178,7 +117,7 @@ module MetaKoans
   # generate corresponding getter, setter, and query methods on the class itself
   # in addition to instances of it.
   #
-  def koan_04
+  def koan_4
     SomeClass.class_eval do
       class << self
         attribute 'f'
@@ -200,7 +139,7 @@ module MetaKoans
   #
   # 'attribute' must provide a method for providing a default value as hash
   #
-  def koan_05
+  def koan_5
     SomeClass.class_eval do
       attribute 'h' => 34
       attribute 'i' => 33
@@ -229,7 +168,7 @@ module MetaKoans
   # difference between it and class_eval. this code should not affect your 
   # mastery of this koan
   #
-  def koan_06
+  def koan_6
     SomeClass.class_eval do
       attribute('j'){ thirtytwo }
       attribute('k'){ j - 1 }
@@ -273,7 +212,7 @@ module MetaKoans
   #
   # 'attribute' must be available to any class
   #
-  def koan_07
+  def koan_7
     c = Class.new do
       class << self
         attribute 'm'
@@ -297,7 +236,7 @@ module MetaKoans
   #
   # 'attribute' must be available to any module
   #
-  def koan_08
+  def koan_8
     m = Module.new do
       attribute 'o'
     end
@@ -323,212 +262,6 @@ module MetaKoans
   #
   # into the void 
   #
-  def koan_09
-    b = Class.new {
-      class << self
-        attribute 'a' => 48
-        attribute('b'){ a + 1 }
-      end
-      include Module.new {
-        attribute 'a' => 50
-        attribute('b'){ a + 1 }
-      }
-    }
-
-    c = Class.new b
-
-    assert{ c.a == 48 }
-    assert{ c.a? }
-    assert{ c.a = 'forty-two' }
-    assert{ c.a == 'forty-two' }
-    assert{ b.a == 48 }
-    c.a = 48
-
-    assert{ c.b == 49 }
-    assert{ c.b? }
-    assert{ c.b = 'forty-two' }
-    assert{ c.b == 'forty-two' }
-    assert{ b.b == 49 }
-
-    o = c.new
-
-    assert{ o.a == 50 }
-    assert{ o.a? }
-    assert{ o.a = nil; o.a == nil }
-    assert{ not o.a? }
-    o.a = 50
-
-    assert{ o.b == 51 }
-    assert{ o.b? }
-    assert{ o.b = nil; o.b == nil }
-    assert{ not o.b? }
-  end
-
-#
-# 'attribute' must provide getter, setter, and query to instances
-#
-  def koan_1
-    c = Class.new {
-      attribute 'a'
-    }
-
-    o = c.new
-
-    assert{ not o.a? }
-    assert{ o.a = 42 }
-    assert{ o.a == 42 }
-    assert{ o.a? }
-  end
-#
-# 'attribute' must provide getter, setter, and query to classes 
-#
-  def koan_2
-    c = Class.new {
-      class << self
-        attribute 'a'
-      end
-    }
-
-    assert{ not c.a? }
-    assert{ c.a = 42 }
-    assert{ c.a == 42 }
-    assert{ c.a? }
-  end
-#
-# 'attribute' must provide getter, setter, and query to modules at module
-# level
-#
-  def koan_3
-    m = Module.new {
-      class << self
-        attribute 'a'
-      end
-    }
-
-    assert{ not m.a? }
-    assert{ m.a = 42 }
-    assert{ m.a == 42 }
-    assert{ m.a? }
-  end
-#
-# 'attribute' must provide getter, setter, and query to modules which operate
-# correctly when they are included by or extend objects
-#
-  def koan_4
-    m = Module.new {
-      attribute 'a'
-    }
-
-    c = Class.new {
-      include m
-      extend m
-    }
-
-    o = c.new
-
-    assert{ not o.a? }
-    assert{ o.a = 42 }
-    assert{ o.a == 42 }
-    assert{ o.a? }
-
-    assert{ not c.a? }
-    assert{ c.a = 42 }
-    assert{ c.a == 42 }
-    assert{ c.a? }
-  end
-#
-# 'attribute' must provide getter, setter, and query to singleton objects 
-#
-  def koan_5
-    o = Object.new
-
-    class << o
-      attribute 'a'
-    end
-
-    assert{ not o.a? }
-    assert{ o.a = 42 }
-    assert{ o.a == 42 }
-    assert{ o.a? }
-  end
-#
-# 'attribute' must provide a method for providing a default value as hash
-#
-  def koan_6
-    c = Class.new {
-      attribute 'a' => 42
-    }
-
-    o = c.new
-
-    assert{ o.a == 42 }
-    assert{ o.a? }
-    assert{ o.a = nil; o.a == nil }
-    assert{ not o.a? }
-  end
-#
-# 'attribute' must provide a method for providing a default value as block
-# which is evaluated at instance level 
-#
-  def koan_7
-    c = Class.new {
-      attribute('a'){ fortythree }
-      def fortythree
-        43
-      end
-    }
-
-    o = c.new
-
-    assert{ o.a == 43 }
-    assert{ o.a? }
-    assert{ o.a = nil; o.a == nil }
-    assert{ not o.a? }
-  end
-#
-# 'attribute' must provide inheritance of default values at both class and
-# instance levels
-#
-  def koan_8
-    b = Class.new {
-      class << self
-        attribute 'a' => 44
-        attribute('b'){ a + 1 }
-      end
-      attribute 'a' => 46
-      attribute('b'){ a + 1 }
-    }
-
-    c = Class.new b
-
-    assert{ c.a == 44 }
-    assert{ c.a? }
-    assert{ c.a = nil; c.a == nil }
-    assert{ not c.a? }
-    c.a = 44
-
-    assert{ c.b == 45 }
-    assert{ c.b? }
-    assert{ c.b = nil; c.b == nil }
-    assert{ not c.b? }
-
-    o = c.new
-
-    assert{ o.a == 46 }
-    assert{ o.a? }
-    assert{ o.a = nil; o.a == nil }
-    assert{ not o.a? }
-    o.a = 46
-    
-    assert{ o.b == 47 }
-    assert{ o.b? }
-    assert{ o.b = nil; o.b == nil }
-    assert{ not o.b? }
-    
-  end
-#
-# into the void 
-#
   def koan_9
     b = Class.new {
       class << self
@@ -563,7 +296,7 @@ module MetaKoans
     assert{ o.a = nil; o.a == nil }
     assert{ not o.a? }
     o.a = 50
-    
+
     assert{ o.b == 51 }
     assert{ o.b? }
     assert{ o.b = nil; o.b == nil }
