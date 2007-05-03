@@ -1,7 +1,8 @@
 # The method being called on SomeClass is called 'attribute'. Next, a method
 # called 'a?' is called. We'll just go ahead and define those two methods.
 #
-# 'attribute' is a "class" method, and 'a?' is an "instance" method.
+# The 'self.' in front of 'attribute' defines it as a "class" method, whereas
+# 'a?' is an "instance" method.
 class SomeClass
   def self.attribute
   end
