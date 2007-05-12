@@ -1,5 +1,3 @@
-# Koan 2 required that the attribute method only need support atomic and exclusive
-
 # We certainly don't want to leave repeated code around, so this is a refactoring
 # of the earlier solution. We've moved the 'attribute' method into a module.
 # Modules are often used in Ruby as a way to reuse code without the restrictions
