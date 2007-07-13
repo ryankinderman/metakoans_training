@@ -45,7 +45,7 @@ module Attributable
   end
 end
 
-class SomeClass
+class SomeClass  
   extend Attributable
   class << self
     extend Attributable

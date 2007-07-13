@@ -42,7 +42,4 @@ end
 
 class Class
   include Attributable
-  class << self
-    include Attributable
-  end  
 end

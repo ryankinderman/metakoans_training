@@ -22,10 +22,6 @@ class Module
     
     [name, default_value]
   end
-
-  def attr_assigned?(attr_name)
-    instance_variable_get(attr_name + "_assigned")
-  end
   
   def define_methods(name, default_value, &block)
     attribute_name = "@#{name}"

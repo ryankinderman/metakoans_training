@@ -6,7 +6,7 @@
 # singleton class and the singleton class becomes the new class of the owner.
 #
 # Singleton classes in Ruby are given special treatment, in that instance methods
-# that are defined for them are class methods of the owning class.
+# that are defined for them are class methods of the singleton class's owning class.
 #
 # Koan 4 is calling 'attribute' from within the context of the singleton class.
 # This is not to be confused with calling 'self.attribute' from within the
