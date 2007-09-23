@@ -1,4 +1,3 @@
-# We certainly don't want to leave repeated code around, so this is a refactoring
 module Attributable
   def attribute(params='a') #name='a')
     name = nil
