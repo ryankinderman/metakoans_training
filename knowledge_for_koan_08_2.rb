@@ -4,12 +4,12 @@ end
 class Module
   def attribute(params='a', &block)
     name, default_value = process_args(params)
-    
+
     define_methods(name, default_value, &block)
   end
-  
+
   private
-  
+
   def process_args(params)
     name = nil
     default_value = nil
@@ -19,10 +19,10 @@ class Module
     else
       name = params
     end
-    
+
     [name, default_value]
   end
-  
+
   def define_methods(name, default_value, &block)
     attribute_name = "@#{name}"
     define_method name do

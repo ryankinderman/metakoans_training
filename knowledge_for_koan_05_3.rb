@@ -8,12 +8,12 @@ module Attributable
     else
       name = params
     end
-    
+
     define_methods(name, default_value)
   end
-  
+
   private
-  
+
   def define_methods(name, default_value)
     var_name = "@#{name}"
     define_method name do
@@ -33,5 +33,5 @@ class SomeClass
   extend Attributable
   class << self
     extend Attributable
-  end  
+  end
 end

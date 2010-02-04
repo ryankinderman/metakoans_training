@@ -5,13 +5,13 @@
 #
 # Modules have the same symantics that classes have, with the exception that
 # you cannot create an instance of a module. So, you might be wondering: If
-# you can't create an instance of a module, how do you call the instance 
+# you can't create an instance of a module, how do you call the instance
 # methods defined in one? This gets us back to the issue of code reuse.
 #
 # There are two ways to use a module as a method for code reuse across classes.
 # The first, and more-commonly-used method is "including" the module inside the
 # class. When you 'include' the module in a class, its instance methods and
-# variables become the including class's instance methods and variables, and 
+# variables become the including class's instance methods and variables, and
 # its class methods and variables become the including class's class methods and
 # variables. Note that 'include' only works for modules and classes.
 #
@@ -19,9 +19,9 @@
 # an object. When you 'extend' an object with a given module, you add the
 # methods of that module to the object. Unlike 'include', 'extend' can be
 # called on any object in Ruby. It's how you add behavior to an instance of
-# a class, instead of to the class itself. 
+# a class, instead of to the class itself.
 #
-# 'extend' adds all of the methods defined in the given module to the object on 
+# 'extend' adds all of the methods defined in the given module to the object on
 # which it's called. If 'extend' is called on a class, the instance methods
 # defined in the module become class methods of the class. This is because
 # what's actually happening is they are becoming instance methods of the
@@ -45,9 +45,9 @@ module Attributable
   end
 end
 
-class SomeClass  
+class SomeClass
   extend Attributable
   class << self
     extend Attributable
-  end  
+  end
 end

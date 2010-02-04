@@ -25,5 +25,5 @@ class SomeClass
   extend Attributable
   class << self
     extend Attributable
-  end  
+  end
 end

@@ -4,26 +4,26 @@
 # behaves much like the built-in 'attr', but whose properties require delving
 # deep into the depths of meta-ruby.  usage of the 'attribute' method follows
 # the general form of
-#   
+#
 #   class C
 #     attribute 'a'
 #   end
-#   
+#
 #   o = C.new
 #   o.a = 42  # setter - sets @a
-#   o.a       # getter - gets @a 
+#   o.a       # getter - gets @a
 #   o.a?      # query - true if @a
-#   
+#
 # but reaches much farther than the standard 'attr' method as you will see
 # shortly.
-#   
+#
 # your path, should you choose to follow it, is to write a single file
 # 'knowledge.rb' implementing all functionality required by the koans below.
 # as a student of meta-programming your course will be guided by a guru whose
 # wisdom and pithy sayings will assist you on your journey.
-#   
-# a successful student will eventually be able to do this   
-#   
+#
+# a successful student will eventually be able to do this
+#
 #   harp:~ > ruby metakoans.rb knowledge.rb
 #   koan_1 has expanded your awareness
 #   koan_2 has expanded your awareness
@@ -35,7 +35,7 @@
 #   koan_8 has expanded your awareness
 #   koan_9 has expanded your awareness
 #   mountains are again merely mountains
-#   
+#
 require File.dirname(__FILE__) + '/meta_guru'
 require File.dirname(__FILE__) + '/meta_student'
 
@@ -49,7 +49,7 @@ module MetaKoans
   #
   def koan_1
     SomeClass.attribute
-    
+
     o = SomeClass.new
 
     assert{ not o.a? }
@@ -64,21 +64,21 @@ module MetaKoans
   #
   def koan_2
     SomeClass.attribute 'b'
-    
+
     o = SomeClass.new
-    
+
     assert{ not o.b? }
     assert{ o.b = 41 }
     assert{ o.b == 41 }
     assert{ o.b? }
   end
-  
+
   #
   # multiple calls to 'attribute' with different parameter values must generate multiple
   # methods whose names correspond to the parameter value, and whose values must must be
   # independent of each other
   #
-  # this koan also illustrates how calling 'attribute' through SomeClass.class_eval 
+  # this koan also illustrates how calling 'attribute' through SomeClass.class_eval
   # has the same effect as calling 'attribute' directly on SomeClass.
   #
   # additionally, by virtue of the fact that 'attribute' is available and working on
@@ -87,31 +87,31 @@ module MetaKoans
   #
   def koan_3
     SomeClass.attribute 'c'
-    
+
     o = SomeClass.new
-    
+
     assert{ not o.c? }
     assert{ o.c = 39 }
     assert{ o.c == 39 }
     assert{ o.c? }
-  
+
     SomeClass.class_eval { attribute 'd' }
-    
+
     assert{ not o.d? }
     assert{ o.d = 38 }
     assert{ o.d == 38 }
     assert{ o.d? }
-    
+
     class << o
       attribute 'e'
     end
-    
+
     assert{ not o.e? }
     assert{ o.e = 37 }
     assert{ o.e == 37 }
-    assert{ o.e? }                
+    assert{ o.e? }
   end
-  
+
   #
   # 'attribute' must be callable from the singleton class of SomeClass, and must
   # generate corresponding getter, setter, and query methods on the class itself
@@ -124,18 +124,18 @@ module MetaKoans
         attribute 'g'
       end
     end
-    
+
     assert{ not SomeClass.f? }
     assert{ SomeClass.f = 36 }
     assert{ SomeClass.f == 36 }
-    assert{ SomeClass.f? }        
-  
+    assert{ SomeClass.f? }
+
     assert{ not SomeClass.g? }
     assert{ SomeClass.g = 35 }
     assert{ SomeClass.g == 35 }
-    assert{ SomeClass.g? }        
+    assert{ SomeClass.g? }
   end
-  
+
   #
   # 'attribute' must provide a method for providing a default value as hash
   #
@@ -144,7 +144,7 @@ module MetaKoans
       attribute 'h' => 34
       attribute 'i' => 33
     end
-    
+
     o = SomeClass.new
 
     assert{ o.h == 34 }
@@ -159,13 +159,13 @@ module MetaKoans
     assert{ o.i == nil }
     assert{ not o.i? }
   end
-  
+
   #
   # 'attribute' must provide a method for providing a default value as block
   # which is evaluated at instance level
   #
-  # instance_eval is called to define an attribute in order to illustrate the 
-  # difference between it and class_eval. this code should not affect your 
+  # instance_eval is called to define an attribute in order to illustrate the
+  # difference between it and class_eval. this code should not affect your
   # mastery of this koan
   #
   def koan_6
@@ -183,7 +183,7 @@ module MetaKoans
     assert{ o.j? }
     assert{ (o.j = nil).nil? }
     assert{ o.j == nil }
-    assert{ not o.j? } 
+    assert{ not o.j? }
 
     o.j = 32
     assert{ o.k == 31 }
@@ -191,7 +191,7 @@ module MetaKoans
     assert{ (o.k = nil).nil? }
     assert{ o.k == nil }
     assert{ not o.k? }
-    
+
     SomeClass.instance_eval do
       class << self
         attribute('l'){ thirtyone }
@@ -200,15 +200,15 @@ module MetaKoans
         31
       end
     end
-    
-    assert{ SomeClass.thirtyone == 31 }  
+
+    assert{ SomeClass.thirtyone == 31 }
     assert{ SomeClass.l == 31 }
     assert{ SomeClass.l? }
     assert{ (SomeClass.l = nil).nil? }
     assert{ SomeClass.l == nil }
     assert{ not SomeClass.l? }
   end
-  
+
   #
   # 'attribute' must be available to any class
   #
@@ -219,14 +219,14 @@ module MetaKoans
       end
       attribute 'n'
     end
-  
+
     assert{ not c.m? }
     assert{ c.m = 30 }
     assert{ c.m == 30 }
     assert{ c.m? }
-  
+
     o = c.new
-  
+
     assert{ not o.n? }
     assert{ o.n = 29 }
     assert{ o.n == 29 }
@@ -240,19 +240,19 @@ module MetaKoans
     m = Module.new do
       attribute 'o'
     end
-    
+
     c = Class.new do
       include m
       extend m
     end
-  
+
     assert{ not c.o? }
     assert{ c.o = 28 }
     assert{ c.o == 28 }
     assert{ c.o? }
-  
+
     o = c.new
-  
+
     assert{ not o.o? }
     assert{ o.o = 27 }
     assert{ o.o == 27 }
@@ -260,7 +260,7 @@ module MetaKoans
   end
 
   #
-  # into the void 
+  # into the void
   #
   def koan_9
     b = Class.new {
@@ -303,9 +303,9 @@ module MetaKoans
     assert{ not o.b? }
   end
 
-  def assert() 
+  def assert()
     bool = yield
-    raise StandardError, "assert{ #{ caller.first[%r/^.*(?=:)/] } } #=> #{ bool.inspect }" unless bool 
+    raise StandardError, "assert{ #{ caller.first[%r/^.*(?=:)/] } } #=> #{ bool.inspect }" unless bool
     bool
   end
 end

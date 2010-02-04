@@ -9,7 +9,7 @@ class MetaGuru
 
     attainment = nil
 
-    koans.each do |koan| 
+    koans.each do |koan|
       awakened = student.ponder koan
       if awakened
         puts "#{ koan } has expanded your awareness"
@@ -22,7 +22,7 @@ class MetaGuru
 
     puts(
       case attainment
-        when nil 
+        when nil
           "mountains are merely mountains"
         when 'koan_1', 'koan_2'
           "learn the rules so you know how to break them properly"
