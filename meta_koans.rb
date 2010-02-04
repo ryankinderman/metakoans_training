@@ -40,7 +40,9 @@ require File.dirname(__FILE__) + '/meta_guru'
 require File.dirname(__FILE__) + '/meta_student'
 
 # knowledge = ARGV.shift or abort "#{ $0 } knowledge.rb"
-student = MetaStudent.new 'knowledge_for_koan_09_1'
+koan = ARGV[0]
+rev = ARGV[1]
+student = MetaStudent.new "knowledge_for_koan_0#{koan}_#{rev}"
 
 module MetaKoans
 
